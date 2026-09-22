@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/detail_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- 填满整个屏幕的背景图 (默认隐藏，有图时才显示) -->
+    <ImageView
+        android:id="@+id/detail_bg_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <!-- 顶部居中的名称 -->
+    <com.ybc.mydays.StrokeTextView
+        android:id="@+id/detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:shadowColor="#99000000"
+        android:shadowDx="0"
+        android:shadowDy="6"
+        android:shadowRadius="16" />
+
+    <!-- 屏幕正中央的天数 -->
+    <com.ybc.mydays.StrokeTextView
+        android:id="@+id/detail_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textSize="80sp"
+        android:textStyle="bold"
+        android:shadowColor="#99000000"
+        android:shadowDx="0"
+        android:shadowDy="6"
+        android:shadowRadius="16" />
+</RelativeLayout>

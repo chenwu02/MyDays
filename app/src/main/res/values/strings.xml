@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">日期沙漏</string>
+
+    <string name="title">倒数日</string>
+
+    <string name="rename">请输入名称</string>
+
+    <string name="save">保存</string>
+
+    <string name="target_date_add">目标日期</string>
+
+    <string name="datepicker_add">请选择日期 ></string>
+
+    <string name="repetition_cycle">重复周期</string>
+
+    <string name="no_repetition">不重复 ></string>
+
+    <string name="event_reminder">事件提醒</string>
+
+    <string name="reminder_current_day">当天</string>
+
+    <string name="reminder_1_day_before">提前 1 天</string>
+
+    <string name="reminder_3_days_before">提前 3 天</string>
+
+    <string name="reminder_1_week_before">提前 1 周</string>
+
+    <string name="count_up">是否正数</string>
+
+    <string name="sort">排序</string>
+
+    <string name="apperance">外观设置</string>
+
+    <string name="bgp">图片背景</string>
+
+    <string name="bgc">纯色背景</string>
+
+    <string name="text_color">文字颜色</string>
+</resources>
