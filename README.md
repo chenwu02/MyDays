@@ -1,4 +1,4 @@
-# ⏳ MyDays (倒数日) —— 纯粹的时间记录者
+# ⏳ MyDays (日期沙漏) —— 纯粹的时间记录者
 
 ![Android Native](https://img.shields.io/badge/Platform-Android-3DDC84?style=flat-square&logo=android)
 ![Java](https://img.shields.io/badge/Language-Java-ED8B00?style=flat-square&logo=java)
