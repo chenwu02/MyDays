@@ -4,7 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- 填满整个屏幕的背景图 (默认隐藏，有图时才显示) -->
+    <!-- 渐变底色 -->
+    <View
+        android:id="@+id/detail_gradient_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_main_gradient" />
+
     <ImageView
         android:id="@+id/detail_bg_image"
         android:layout_width="match_parent"
@@ -12,30 +18,79 @@
         android:scaleType="centerCrop"
         android:visibility="gone" />
 
-    <!-- 顶部居中的名称 -->
-    <com.ybc.mydays.StrokeTextView
-        android:id="@+id/detail_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:textSize="32sp"
-        android:textStyle="bold"
-        android:shadowColor="#99000000"
-        android:shadowDx="0"
-        android:shadowDy="6"
-        android:shadowRadius="16" />
-
-    <!-- 屏幕正中央的天数 -->
-    <com.ybc.mydays.StrokeTextView
-        android:id="@+id/detail_days"
-        android:layout_width="wrap_content"
+    <!-- 玻璃态悬浮卡片 -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:textSize="80sp"
-        android:textStyle="bold"
-        android:shadowColor="#99000000"
-        android:shadowDx="0"
-        android:shadowDy="6"
-        android:shadowRadius="16" />
+        android:layout_margin="32dp"
+        android:background="@drawable/bg_glass_card"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="40dp">
+
+        <!-- 小字与标题同行 (标题在前，标签在后) -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <com.ybc.mydays.StrokeTextView
+                android:id="@+id/detail_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="#33000000"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/detail_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="4dp"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+            <com.ybc.mydays.StrokeTextView
+                android:id="@+id/detail_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="#33000000"
+                android:textSize="80sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/detail_days_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                android:text="天"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/detail_target_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="48dp"
+        android:background="@drawable/bg_glass_button"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="10dp"
+        android:textSize="16sp"
+        android:textStyle="bold" />
 </RelativeLayout>

@@ -2,8 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 允许 App 发送系统通知 -->
+    <!-- 系统通知权限 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- 精准闹钟权限 -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -25,10 +31,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".add_activity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
             android:name=".AddActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
@@ -41,6 +43,23 @@
             android:name=".DetailActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
+
+        <receiver
+            android:name=".ReminderReceiver"
+            android:exported="false" />
+
+        <receiver
+            android:name=".BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <!-- 监听开机 -->
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- 监听用户手动修改时间 -->
+                <action android:name="android.intent.action.TIME_SET" />
+                <!-- 监听时区改变 -->
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

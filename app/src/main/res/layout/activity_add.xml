@@ -1,271 +1,309 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@drawable/bg_main_gradient"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/LinearLayoutAddTop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="15dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp">
 
         <ImageButton
             android:id="@+id/backOfAdd"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_glass_button"
+            android:scaleType="centerInside"
             android:src="@drawable/chevron_left"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter" />
+            app:tint="#FFFFFF" />
 
         <EditText
             android:id="@+id/renameOfAdd"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="35sp"
-            android:textStyle="bold"
+            android:layout_marginHorizontal="16dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/rename"
             android:selectAllOnFocus="true"
             android:singleLine="true"
-            android:hint="@string/rename"
-            android:textColorHint="@color/grey1" />
+            android:textColor="#FFFFFF"
+            android:textColorHint="#99FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/saveOfAdd"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
             android:text="@string/save"
-            android:textSize="20sp" />
-
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- 假设这是你现有头部布局下方的区域 -->
     <ScrollView
         android:id="@+id/settingsOfAdd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="40dp"
         android:scrollbars="none">
 
-        <!-- 用一个垂直的 LinearLayout 承载所有表单项 -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- 在这里放入各种表单控件 -->
-            <!-- 目标日期选择项 -->
-            <RelativeLayout
-                android:id="@+id/row_target_date"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true"> <!-- 这两个属性让它有点击水波纹反馈 -->
-
-                <!-- 左侧标题 -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/target_date_add"
-                    android:textSize="16sp" />
-
-                <!-- 右侧选择结果（初始显示提示文字，用户点击弹出 DatePickerDialog） -->
-                <TextView
-                    android:id="@+id/tv_selected_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/datepicker_add"
-                    android:textColor="@color/grey2" />
-            </RelativeLayout>
-
-            <!-- 分割线 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey3" />
-
-            <!-- 设定重复频率行 -->
-            <RelativeLayout
-                android:id="@+id/row_repeat"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:clickable="true">
-
-                <!-- 左侧标题 -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/repetition_cycle"
-                    android:textSize="16sp" />
-
-                <!-- 右侧当前选中的值（默认显示不重复） -->
-                <TextView
-                    android:id="@+id/tv_selected_repeat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:text="@string/no_repetition"
-                    android:textColor="@color/grey2" />
-            </RelativeLayout>
-
-            <!-- 分割线 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey3" />
-
-            <!-- 提醒设置总开关行 -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/event_reminder"
-                    android:textSize="16sp" />
-
-                <!-- 右侧开关 -->
-                <Switch
-                    android:id="@+id/switch_reminder"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
-            </RelativeLayout>
-
-            <!-- 动态隐藏/显示的提醒详细设置区 -->
+            <!-- 时间设置卡片 -->
             <LinearLayout
-                android:id="@+id/container_reminder_details"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_glass_card"
                 android:orientation="vertical"
-                android:visibility="gone"> <!-- 初始隐藏 -->
+                android:paddingVertical="8dp">
 
-                <!-- 为了保持整洁，使用 CheckBox 让用户勾选需要的提醒节点 -->
-                <CheckBox
-                    android:id="@+id/cb_remind_0"
+                <RelativeLayout
+                    android:id="@+id/row_target_date"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/reminder_current_day"
-                    android:padding="12dp" />
+                    android:layout_height="56dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:paddingHorizontal="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/target_date_add"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tv_selected_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/datepicker_add"
+                        android:textColor="#CCFFFFFF"
+                        android:textSize="15sp" />
+                </RelativeLayout>
 
-                <CheckBox
-                    android:id="@+id/cb_remind_1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/reminder_1_day_before"
-                    android:padding="12dp" />
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginHorizontal="20dp" android:background="#33FFFFFF" />
 
-                <CheckBox
-                    android:id="@+id/cb_remind_3"
+                <RelativeLayout
+                    android:id="@+id/row_repeat"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/reminder_3_days_before"
-                    android:padding="12dp" />
-
-                <CheckBox
-                    android:id="@+id/cb_remind_7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/reminder_1_week_before"
-                    android:padding="12dp" />
+                    android:layout_height="56dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:paddingHorizontal="20dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="@string/repetition_cycle"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp" />
+                    <TextView
+                        android:id="@+id/tv_selected_repeat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/no_repetition"
+                        android:textColor="#CCFFFFFF"
+                        android:textSize="15sp" />
+                </RelativeLayout>
             </LinearLayout>
 
-            <!-- 分割线 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey3" />
-
-            <!-- 正数选择器 -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="56dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/count_up"
-                    android:textSize="16sp" />
-                <Switch
-                    android:id="@+id/switch_count_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
-            </RelativeLayout>
-
-            <!-- 分割线 -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/grey3" />
-
-            <!-- 外观设置 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/apperance"
-                android:layout_marginTop="20dp"
-                android:textSize="16sp" />
+            <!-- 事件逻辑卡片 -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-                <Button
-                    android:id="@+id/btn_pick_image"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_glass_card"
+                android:orientation="vertical"
+                android:paddingVertical="8dp">
+
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="56dp" android:paddingHorizontal="20dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:text="@string/count_up" android:textColor="#FFFFFF" android:textSize="16sp" />
+                    <Switch android:id="@+id/switch_count_up" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" />
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginHorizontal="20dp" android:background="#33FFFFFF" />
+
+                <RelativeLayout android:layout_width="match_parent" android:layout_height="56dp" android:paddingHorizontal="20dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_centerVertical="true" android:text="@string/event_reminder" android:textColor="#FFFFFF" android:textSize="16sp" />
+                    <Switch android:id="@+id/switch_reminder" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentEnd="true" android:layout_centerVertical="true" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/container_reminder_details"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/bgp" />
-                <Button
-                    android:id="@+id/btn_pick_bg_color"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bgc" />
-                <Button
-                    android:id="@+id/btn_pick_txt_color"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_color" />
+                    android:orientation="vertical"
+                    android:paddingHorizontal="20dp"
+                    android:paddingBottom="10dp"
+                    android:visibility="gone">
+                    <CheckBox android:id="@+id/cb_remind_0" android:layout_width="match_parent" android:layout_height="wrap_content" android:buttonTint="#FFFFFF" android:padding="8dp" android:text="@string/reminder_current_day" android:textColor="#FFFFFF" />
+                    <CheckBox android:id="@+id/cb_remind_1" android:layout_width="match_parent" android:layout_height="wrap_content" android:buttonTint="#FFFFFF" android:padding="8dp" android:text="@string/reminder_1_day_before" android:textColor="#FFFFFF" />
+                    <CheckBox android:id="@+id/cb_remind_3" android:layout_width="match_parent" android:layout_height="wrap_content" android:buttonTint="#FFFFFF" android:padding="8dp" android:text="@string/reminder_3_days_before" android:textColor="#FFFFFF" />
+                    <CheckBox android:id="@+id/cb_remind_7" android:layout_width="match_parent" android:layout_height="wrap_content" android:buttonTint="#FFFFFF" android:padding="8dp" android:text="@string/reminder_1_week_before" android:textColor="#FFFFFF" />
+                </LinearLayout>
             </LinearLayout>
 
-            <!-- 虚化背景开关 -->
-            <RelativeLayout
+            <!-- 外观设置卡片 -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="10dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_glass_card"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="16dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="虚化背景图片"
-                    android:textSize="16sp" />
-                <Switch
-                    android:id="@+id/switch_blur_bg"
+                    android:text="@string/apperance"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <!-- 1. 选择背景大方向 -->
+                <RadioGroup
+                    android:id="@+id/rg_bg_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/rb_bg_image"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="#FFFFFF"
+                        android:text="图片背景"
+                        android:textColor="#FFFFFF" />
+                    <RadioButton
+                        android:id="@+id/rb_bg_color"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:buttonTint="#FFFFFF"
+                        android:text="颜色/渐变背景"
+                        android:textColor="#FFFFFF" />
+                </RadioGroup>
+
+                <!-- 2A. 图片控制区 -->
+                <LinearLayout
+                    android:id="@+id/layout_bg_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+                    <Button
+                        android:id="@+id/btn_pick_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:background="@drawable/bg_glass_button"
+                        android:text="从相册选择图片"
+                        android:textColor="#FFFFFF" />
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="10dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="虚化背景图片"
+                            android:textColor="#FFFFFF" />
+                        <Switch
+                            android:id="@+id/switch_blur_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <!-- 2B. 颜色控制区 -->
+                <LinearLayout
+                    android:id="@+id/layout_bg_color"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+                    <Button
+                        android:id="@+id/btn_preset_bg_color"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_glass_button"
+                        android:text="预设主题色"
+                        android:textColor="#FFFFFF" />
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="0dp" />
+                    <Button
+                        android:id="@+id/btn_custom_bg_color"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_glass_button"
+                        android:text="调色盘自定义"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginVertical="16dp" android:background="#33FFFFFF" />
+
+                <!-- 3. 文字颜色控制区 -->
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true" />
-            </RelativeLayout>
+                    android:text="文字颜色"
+                    android:textColor="#FFFFFF" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btn_preset_txt_color"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_glass_button"
+                        android:text="预设文字色"
+                        android:textColor="#FFFFFF" />
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="0dp" />
+                    <Button
+                        android:id="@+id/btn_custom_txt_color"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_glass_button"
+                        android:text="调色盘自定义"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

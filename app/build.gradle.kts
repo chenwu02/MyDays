@@ -13,7 +13,7 @@ android {
         minSdk = 24
         targetSdk = 37
         versionCode = 1
-        versionName = "1.0"
+        versionName = "2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,4 +50,6 @@ dependencies {
     implementation("jp.wasabeef:glide-transformations:4.3.0")
     // 引入官方的后台任务管理器
     implementation("androidx.work:work-runtime:2.9.0")
+    // 引入第三方颜色选择器
+    implementation("com.github.skydoves:colorpickerview:2.3.0")
 }

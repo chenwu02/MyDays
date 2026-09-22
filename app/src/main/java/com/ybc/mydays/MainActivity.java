@@ -2,17 +2,21 @@ package com.ybc.mydays;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -21,117 +25,81 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView recyclerView; // 改用 RecyclerView
+    private RecyclerView recyclerView;
     private ArrayList<DaysData> dataList;
     private DaysAdapter adapter;
-
-    // 控制是否允许排序的开关变量
     private boolean isSortingMode = false;
+
+    // 主页图片选择器
+    private final androidx.activity.result.ActivityResultLauncher<com.canhub.cropper.CropImageContractOptions> mainCropLauncher =
+            registerForActivityResult(new com.canhub.cropper.CropImageContract(), result -> {
+                if (result.isSuccessful()) {
+                    SharedPreferences prefs = getSharedPreferences("MyDaysTheme", MODE_PRIVATE);
+                    prefs.edit().putString("main_bg_img", result.getUriContent().toString())
+                            .putString("main_bg_color", null).apply();
+                    applyMainTheme();
+                }
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 1. 初始化 RecyclerView
         recyclerView = findViewById(R.id.list_home);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)); // 必须设置 LayoutManager
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // 2. 绑定跳转 AddActivity 按钮
         ImageButton btnAdd = findViewById(R.id.add);
-        btnAdd.setOnClickListener(v -> {
-            startActivity(new Intent(MainActivity.this, AddActivity.class));
-        });
+        btnAdd.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AddActivity.class)));
 
-        // 3. 找到你新加的排序按钮
+        ImageButton btnTheme = findViewById(R.id.btn_theme);
+        btnTheme.setOnClickListener(v -> showThemeSettingsDialog());
+
         Button btnSort = findViewById(R.id.sort);
         btnSort.setOnClickListener(v -> {
-            isSortingMode = !isSortingMode; // 切换排序状态
+            isSortingMode = !isSortingMode;
             if (isSortingMode) {
                 btnSort.setText("完成排序");
             } else {
                 btnSort.setText("排序");
-                // 退出排序模式时，保存最新的顺序到手机
                 saveDataToLocal();
             }
         });
 
-        // 4. 配置拖拽神器 ItemTouchHelper
+        // 拖拽逻辑 (保持原样)
         ItemTouchHelper touchHelper = new ItemTouchHelper(new ItemTouchHelper.Callback() {
             @Override
             public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-                // 排序模式下：只允许上下拖拽
-                // 非排序模式下：允许左右滑动 (LEFT = 删除, RIGHT = 编辑)
                 int dragFlags = isSortingMode ? (ItemTouchHelper.UP | ItemTouchHelper.DOWN) : 0;
                 int swipeFlags = isSortingMode ? 0 : (ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT);
                 return makeMovementFlags(dragFlags, swipeFlags);
             }
-
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                // 用户拖动时，通知 Adapter 交换数据
-                int fromPosition = viewHolder.getAdapterPosition();
-                int toPosition = target.getAdapterPosition();
-                adapter.moveItem(fromPosition, toPosition);
+                adapter.moveItem(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return true;
             }
-
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-
                 if (direction == ItemTouchHelper.LEFT) {
-                    // ====== 向左滑动：删除 ======
-                    dataList.remove(position); // 从数据源移除
-                    adapter.notifyItemRemoved(position); // 播放移除动画
-                    saveDataToLocal(); // 保存到本地
-                }
-                else if (direction == ItemTouchHelper.RIGHT) {
-                    // ====== 向右滑动：编辑 ======
-                    // 1. 让滑动出去的卡片先弹回原位
+                    dataList.remove(position);
+                    adapter.notifyItemRemoved(position);
+                    saveDataToLocal();
+                } else if (direction == ItemTouchHelper.RIGHT) {
                     adapter.notifyItemChanged(position);
-
-                    // 2. 携带当前项的索引（position）跳转到新建/编辑页面
                     Intent intent = new Intent(MainActivity.this, AddActivity.class);
-                    // 传入一个标记，告诉 AddActivity 我们现在是“编辑模式”，并且编辑的是第几个数据
                     intent.putExtra("EDIT_INDEX", position);
                     startActivity(intent);
                 }
             }
-
-            // 绘制滑动时的底色背景
-            @Override
-            public void onChildDraw(@NonNull android.graphics.Canvas c, @NonNull RecyclerView recyclerView,
-                                    @NonNull RecyclerView.ViewHolder viewHolder, float dX, float dY,
-                                    int actionState, boolean isCurrentlyActive) {
-                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
-                    View itemView = viewHolder.itemView;
-                    android.graphics.Paint paint = new android.graphics.Paint();
-                    if (dX < 0) {
-                        // 向左滑：画红色背景
-                        paint.setColor(android.graphics.Color.parseColor("#FF3B30"));
-                        c.drawRect((float) itemView.getRight() + dX, (float) itemView.getTop(),
-                                (float) itemView.getRight(), (float) itemView.getBottom(), paint);
-                    } else if (dX > 0) {
-                        // 向右滑：画蓝色背景
-                        paint.setColor(android.graphics.Color.parseColor("#007AFF"));
-                        c.drawRect((float) itemView.getLeft(), (float) itemView.getTop(),
-                                (float) itemView.getLeft() + dX, (float) itemView.getBottom(), paint);
-                    }
-                }
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-
             @Override
             public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
                 super.clearView(recyclerView, viewHolder);
-                // 拖拽松手后触发，这里也可以选择实时保存
-                if (isSortingMode) {
-                    saveDataToLocal();
-                }
+                if (isSortingMode) saveDataToLocal();
             }
         });
-        touchHelper.attachToRecyclerView(recyclerView); // 将拖拽工具绑定到列表上
+        touchHelper.attachToRecyclerView(recyclerView);
 
         // 1. 申请通知权限 (针对 Android 13 及以上)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
@@ -140,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // 2. 创建通知渠道
+        // 2. 创建通知渠道 (针对 Android 8.0 及以上)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             android.app.NotificationChannel channel = new android.app.NotificationChannel(
                     "MY_DAYS_CHANNEL",
@@ -154,40 +122,80 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        // 3. 启动每日巡检后台任务
-        // 设置任务每天执行一次 (24小时)
-        androidx.work.PeriodicWorkRequest reminderRequest =
-                new androidx.work.PeriodicWorkRequest.Builder(ReminderWorker.class, 24, java.util.concurrent.TimeUnit.HOURS)
-                        .build();
-        // 保证唯一性，不会重复启动多个相同的任务
-        androidx.work.WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-                "DailyReminderWork",
-                androidx.work.ExistingPeriodicWorkPolicy.KEEP,
-                reminderRequest
-        );
+        // 3. 启动精准闹钟引擎 (每天 00:01 触发)
+        AlarmHelper.scheduleNextMidnightAlarm(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // 读取数据逻辑不变
+        applyMainTheme(); // 每次回主页重新渲染背景
+
         SharedPreferences prefs = getSharedPreferences("MyDaysPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
         String jsonStr = prefs.getString("days_list", "[]");
         Type type = new TypeToken<ArrayList<DaysData>>() {}.getType();
-        dataList = gson.fromJson(jsonStr, type);
-
-        // 设置 Adapter
+        dataList = new Gson().fromJson(jsonStr, type);
         adapter = new DaysAdapter(dataList);
         recyclerView.setAdapter(adapter);
     }
 
-    // 新增：提取出来的保存数据方法
     private void saveDataToLocal() {
         if (dataList == null) return;
-        SharedPreferences prefs = getSharedPreferences("MyDaysPrefs", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String newJsonStr = gson.toJson(dataList);
-        prefs.edit().putString("days_list", newJsonStr).apply();
+        getSharedPreferences("MyDaysPrefs", MODE_PRIVATE).edit()
+                .putString("days_list", new Gson().toJson(dataList)).apply();
+    }
+
+    private void showThemeSettingsDialog() {
+        String[] options = {"从相册选图片", "预设渐变/纯色", "调色盘自定义"};
+        new AlertDialog.Builder(this).setTitle("设置主页背景").setItems(options, (dialog, which) -> {
+            SharedPreferences prefs = getSharedPreferences("MyDaysTheme", MODE_PRIVATE);
+            if (which == 0) {
+                // 1. 实时获取当前设备的屏幕宽高像素
+                android.util.DisplayMetrics metrics = getResources().getDisplayMetrics();
+                int screenWidth = metrics.widthPixels;
+                int screenHeight = metrics.heightPixels;
+
+                // 2. 将屏幕真实宽高作为裁切比例
+                com.canhub.cropper.CropImageOptions cropOptions = new com.canhub.cropper.CropImageOptions();
+                cropOptions.imageSourceIncludeGallery = true;
+                cropOptions.imageSourceIncludeCamera = false;
+                cropOptions.fixAspectRatio = true;
+                cropOptions.aspectRatioX = screenWidth;
+                cropOptions.aspectRatioY = screenHeight;
+
+                mainCropLauncher.launch(new com.canhub.cropper.CropImageContractOptions(null, cropOptions));
+            } else if (which == 1) {
+                String[] names = {"暗夜黑", "落日橘 (默认)", "深海蓝", "蜜桃粉", "青翠自然"};
+                String[] codes = {"#222222", "#ED8F03,#FFB75E", "#051937,#004D7A,#008793", "#FF9A9E,#FECFEF", "#11998E,#38EF7D"};
+                new AlertDialog.Builder(this).setTitle("预设背景").setItems(names, (d, w) -> {
+                    prefs.edit().putString("main_bg_color", codes[w]).putString("main_bg_img", null).apply();
+                    applyMainTheme();
+                }).show();
+            } else if (which == 2) {
+                CustomColorPickerHelper.showBackgroundPicker(this, colorResult -> {
+                    prefs.edit().putString("main_bg_color", colorResult).putString("main_bg_img", null).apply();
+                    applyMainTheme();
+                });
+            }
+        }).show();
+    }
+
+    private void applyMainTheme() {
+        SharedPreferences prefs = getSharedPreferences("MyDaysTheme", MODE_PRIVATE);
+        String bgImg = prefs.getString("main_bg_img", null);
+        String bgColor = prefs.getString("main_bg_color", null);
+
+        ImageView ivBg = findViewById(R.id.main_bg_image);
+        View viewGradient = findViewById(R.id.main_gradient_bg);
+
+        if (bgImg != null) {
+            ivBg.setVisibility(View.VISIBLE);
+            viewGradient.setVisibility(View.GONE);
+            Glide.with(this).load(Uri.parse(bgImg)).into(ivBg);
+        } else {
+            ivBg.setVisibility(View.GONE);
+            viewGradient.setVisibility(View.VISIBLE);
+            BackgroundUtil.applyBackground(viewGradient, bgColor, "#ED8F03,#FFB75E");
+        }
     }
 }
