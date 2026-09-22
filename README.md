@@ -24,12 +24,6 @@ MyDays 是一款为 Android 平台打造的极简倒数日/纪念日应用。
   - 基于 Android 官方推荐的 Jetpack WorkManager 打造。
   - 资源占用极低，支持“提前三天”或“当天”精准推送，完美适配 Android 13+ 权限通知规范。
 
-## 📸 界面预览
-
-*(在这里放上你的精美截图)*
-| 主界面  | 添加事件 (现代输入框) | 详情页 (海报级遮罩) |
-| :---: | :---: | :---: |
-| <img src="screenshot1.png" width="250"/> | <img src="screenshot2.png" width="250"/> | <img src="screenshot3.png" width="250"/> |
 
 ## 🛠 技术栈
 
