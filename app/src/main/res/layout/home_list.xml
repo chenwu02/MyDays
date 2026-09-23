@@ -19,7 +19,9 @@
         android:includeFontPadding="false"
         android:textColor="#FFFFFF"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/list_restDays"

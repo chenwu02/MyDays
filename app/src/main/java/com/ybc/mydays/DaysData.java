@@ -1,5 +1,8 @@
 package com.ybc.mydays;
 
+/**
+ * 数据模型
+ */
 public class DaysData {
     private String matterName;
     private int matterYear;

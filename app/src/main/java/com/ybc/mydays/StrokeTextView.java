@@ -7,6 +7,9 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import androidx.appcompat.widget.AppCompatTextView;
 
+/**
+ * 文字白色描边
+ */
 public class StrokeTextView extends AppCompatTextView {
 
     public StrokeTextView(Context context) {
@@ -34,7 +37,7 @@ public class StrokeTextView extends AppCompatTextView {
         // 1. 绘制白色的外边框
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(strokeWidth);
-        setTextColor(Color.WHITE); // 边框颜色设为纯白
+        setTextColor(Color.WHITE);
         super.onDraw(canvas);
 
         // 2. 绘制真正的内层文字

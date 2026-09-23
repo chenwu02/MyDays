@@ -4,6 +4,9 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 
+/**
+ * 处理背景渲染
+ */
 public class BackgroundUtil {
     public static void applyBackground(View view, String colorStr, String defaultColor) {
         String parseStr = (colorStr != null && !colorStr.isEmpty()) ? colorStr : defaultColor;

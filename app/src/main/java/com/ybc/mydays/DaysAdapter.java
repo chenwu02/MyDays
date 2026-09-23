@@ -1,37 +1,44 @@
 package com.ybc.mydays;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.Collections;
+
 import java.util.List;
 
-// 注意这里继承的是 RecyclerView.Adapter
+/**
+ * 首页倒数日列表适配器
+ * 负责将 DaysData 数据模型绑定到 home_list 布局，并处理点击与拖拽排序。
+ */
 public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder> {
 
-    private List<DaysData> dataList;
+    // ================= 常量定义 (性能优化) =================
+    // 使用 16 进制字面量直接定义颜色，避免在滑动时频繁解析字符串
+    // 格式为 0xAARRGGBB (AA为透明度，FF表示完全不透明)
+    private static final int COLOR_ORANGE = 0xFFFF9500;
+    private static final int COLOR_RED = 0xFFFF3B30;
+    private static final int COLOR_BLUE = 0xFF007AFF;
+
+    private final List<DaysData> dataList;
 
     public DaysAdapter(List<DaysData> dataList) {
         this.dataList = dataList;
     }
 
-    // 提供给外部的拖动排序方法
+    /**
+     * 处理列表项拖拽排序
+     * @param fromPosition 起始位置
+     * @param toPosition   目标位置
+     */
     public void moveItem(int fromPosition, int toPosition) {
-        // 在数据源中交换位置
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(dataList, i, i + 1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(dataList, i, i - 1);
-            }
-        }
-        // 通知界面执行动画更新
+        // 最标准、安全的集合元素移动算法
+        DaysData item = dataList.remove(fromPosition);
+        dataList.add(toPosition, item);
         notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -44,33 +51,36 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull DaysViewHolder holder, int position) {
-        DaysData daysData = dataList.get(position);
-        holder.list_name.setText(daysData.getMatterName());
+        DaysData data = dataList.get(position);
+        holder.tvName.setText(data.getMatterName());
 
-        // 调用新算法
+        // 计算真实天数
         long finalDays = DaysUntil.calculateDays(
-                daysData.getMatterYear(), daysData.getMatterMonth(),
-                daysData.getMatterDay(), daysData.getRepeatIndex(), daysData.isCountUp()
+                data.getMatterYear(), data.getMatterMonth(), data.getMatterDay(),
+                data.getRepeatIndex(), data.isCountUp()
         );
 
-        // 设置颜色和文字
-        if (daysData.isCountUp()) {
-            holder.list_restDays.setText(finalDays + " 天");
-            holder.list_restDays.setTextColor(Color.parseColor("#FF9500")); // 橙色
+        // 渲染文案与颜色
+        if (data.isCountUp()) {
+            // 累计日模式 (正数)
+            holder.tvRestDays.setText(finalDays + " 天");
+            holder.tvRestDays.setTextColor(COLOR_ORANGE);
         } else {
-            if (finalDays < 0 && daysData.getRepeatIndex() == 0) {
-                holder.list_restDays.setText("已超 " + Math.abs(finalDays) + " 天");
-                holder.list_restDays.setTextColor(Color.parseColor("#FF3B30")); // 红色
+            // 倒数日模式
+            if (finalDays < 0 && data.getRepeatIndex() == 0) {
+                // 不重复且已过期
+                holder.tvRestDays.setText("已超 " + Math.abs(finalDays) + " 天");
+                holder.tvRestDays.setTextColor(COLOR_RED);
             } else {
-                holder.list_restDays.setText(finalDays + " 天");
-                holder.list_restDays.setTextColor(Color.parseColor("#007AFF")); // 蓝色
+                // 尚未过期
+                holder.tvRestDays.setText(finalDays + " 天");
+                holder.tvRestDays.setTextColor(COLOR_BLUE);
             }
         }
 
-        // 点击进入详情页
+        // 绑定点击事件，跳转详情页
         holder.itemView.setOnClickListener(v -> {
-            android.content.Intent intent = new android.content.Intent(v.getContext(), DetailActivity.class);
-            // 将用户点击的是第几个项目告诉详情页
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
             intent.putExtra("DETAIL_INDEX", holder.getAdapterPosition());
             v.getContext().startActivity(intent);
         });
@@ -81,15 +91,18 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
         return dataList == null ? 0 : dataList.size();
     }
 
-    // 强制要求的 ViewHolder
+    /**
+     * 视图持有者
+     */
     public static class DaysViewHolder extends RecyclerView.ViewHolder {
-        TextView list_name;
-        TextView list_restDays;
+
+        final TextView tvName;
+        final TextView tvRestDays;
 
         public DaysViewHolder(@NonNull View itemView) {
             super(itemView);
-            list_name = itemView.findViewById(R.id.list_name);
-            list_restDays = itemView.findViewById(R.id.list_restDays);
+            tvName = itemView.findViewById(R.id.list_name);
+            tvRestDays = itemView.findViewById(R.id.list_restDays);
         }
     }
 }

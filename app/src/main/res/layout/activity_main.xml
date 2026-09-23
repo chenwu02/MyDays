@@ -43,8 +43,10 @@
                 android:layout_weight="1"
                 android:text="@string/title"
                 android:textColor="#FFFFFF"
-                android:textSize="35sp"
-                android:textStyle="bold" />
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end" />
 
             <Button
                 android:id="@+id/sort"
