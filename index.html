@@ -15,7 +15,7 @@
     }
 
     body {
-      background-color: #f5f5f7; /* Apple 经典的浅灰色背景 */
+      background-color: #f5f5f7;
       color: #1d1d1f;
       overflow-x: hidden;
     }
@@ -89,16 +89,15 @@
       filter: blur(60px);
     }
 
-    /* ================= 新增：Apple式粘性滚动特效区 ================= */
     .scroll-sequence {
       /* 赋予 400vh 的高度，让用户有足够的滚动空间来播放动画 */
       height: 400vh;
       position: relative;
-      background-color: #000; /* 使用黑色背景增加戏剧性冲突 */
+      background-color: #000; 
     }
 
     .sticky-container {
-      /* 核心：将容器粘在屏幕顶部 */
+      /* 将容器粘在屏幕顶部 */
       position: sticky;
       top: 0;
       height: 100vh;
@@ -128,7 +127,7 @@
       z-index: 10;
     }
 
-    /* 用于展示的液态玻璃卡片 (纯 CSS 绘制) */
+    /* 用于展示的液态玻璃卡片 */
     .seq-device .glass-card {
       width: clamp(280px, 80vw, 360px);
       height: clamp(380px, 60vh, 480px);
@@ -246,7 +245,7 @@
       margin: 0 auto 80px;
     }
 
-    /* 纯 CSS 渲染的液态玻璃展示图 */
+    /* 液态玻璃展示图 */
     .glass-mockup {
       position: relative;
       width: clamp(280px, 80vw, 400px);
@@ -355,17 +354,14 @@
   <h1>时间，前所未见。</h1>
   <p>极其现代的液态玻璃设计，精准记录每一个重要时刻。</p>
 </header>
-
-<!-- ======== 新增：Apple 式粘性滚动动画区 ======== -->
+  
 <section class="scroll-sequence" id="scroll-sequence">
   <div class="sticky-container">
-    <!-- 阶段一：文案 1 -->
+    
     <div class="seq-text-1" id="seq-text-1">不再只是记录</div>
 
-    <!-- 阶段二：文案 2 -->
     <div class="seq-text-2" id="seq-text-2">而是感知。</div>
 
-    <!-- 阶段三：设备浮现 -->
     <div class="seq-device" id="seq-device">
       <div class="glass-card">
         <h3>周年纪念日<span style="font-size: 24px;">还有</span></h3>
@@ -420,7 +416,7 @@
   <h2>准备好重塑时间了吗？</h2>
   <div class="button-group">
     <a href="https://github.com/chenwu02/MyDays" class="btn btn-secondary">访问 GitHub 存储库</a>
-    <a href="https://github.com/chenwu02/MyDays/releases/download/v2.2/MyDays-release-v2.2.apk" class="btn btn-primary">下载最新版</a>
+    <a href="https://github.com/chenwu02/MyDays/releases/download/v2.3/MyDays-release-v2.3.apk" class="btn btn-primary">下载最新版</a>
   </div>
 </section>
 
@@ -438,7 +434,7 @@
     observer.observe(el);
   });
 
-  // ================= 新增：Apple式粘性滚动控制算法 =================
+  // ================= 粘性滚动控制算法 =================
   const sequence = document.getElementById('scroll-sequence');
   const text1 = document.getElementById('seq-text-1');
   const text2 = document.getElementById('seq-text-2');
@@ -466,8 +462,8 @@
 
     // 分镜 1 (进度 0.0 ~ 0.3)：文字1放大并消散
     let t1Progress = Math.min(1, progress / 0.3);
-    text1.style.transform = `scale(${1 + t1Progress * 4})`; // 放大到5倍
-    text1.style.opacity = 1 - Math.pow(t1Progress, 2); // 越来越透明
+    text1.style.transform = `scale(${1 + t1Progress * 4})`; 
+    text1.style.opacity = 1 - Math.pow(t1Progress, 2); 
     text1.style.display = progress > 0.3 ? 'none' : 'block';
 
     // 分镜 2 (进度 0.3 ~ 0.6)：文字2浮现并快速放大消散
