@@ -318,6 +318,11 @@ public class AddActivity extends AppCompatActivity {
 
         if (list == null) list = new ArrayList<>();
 
+        //继承ID
+        if (editIndex != -1 && list.size() > editIndex) {
+            newData.setEventId(list.get(editIndex).getEventId());
+        }
+
         // 4. 更新或新增数据
         if (editIndex != -1) {
             list.set(editIndex, newData);
@@ -327,6 +332,10 @@ public class AddActivity extends AppCompatActivity {
 
         // 5. 序列化并保存
         prefs.edit().putString(KEY_DAYS_LIST, gson.toJson(list)).apply();
+
+        // 通知桌面小组件数据被修改或添加
+        MyDaysWidgetProvider.notifyGlobalUpdate(this);
+
         finish();
     }
 }

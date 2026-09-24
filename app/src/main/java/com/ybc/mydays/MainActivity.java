@@ -208,6 +208,9 @@ public class MainActivity extends AppCompatActivity {
         getSharedPreferences(PREF_DATA, MODE_PRIVATE).edit()
                 .putString("days_list", new Gson().toJson(dataList))
                 .apply();
+
+        // 通知桌面小组件数据发生删除或排序
+        MyDaysWidgetProvider.notifyGlobalUpdate(this);
     }
 
     /**

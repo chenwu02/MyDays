@@ -60,6 +60,28 @@
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <!-- 注册小组件配置页面 -->
+        <activity
+            android:name=".WidgetConfigActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <!-- 注册小组件引擎 (BroadcastReceiver) -->
+        <receiver
+            android:name=".MyDaysWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <!-- 绑定我们第一步写的属性配置文件 -->
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_square" />
+        </receiver>
     </application>
 
 </manifest>

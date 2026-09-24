@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- 正常倒数日视图 -->
+    <LinearLayout
+        android:id="@+id/widget_layout_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- 标题行：名称 + 还有/已经 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+            <TextView
+                android:id="@+id/widget_tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="纪念日"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0" android:shadowDy="0" android:shadowRadius="8" />
+            <TextView
+                android:id="@+id/widget_tv_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginBottom="2dp"
+                android:text="还有"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0" android:shadowDy="0" android:shadowRadius="6" />
+        </LinearLayout>
+
+        <!-- 数字行：数字 + 天 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:gravity="bottom">
+            <TextView
+                android:id="@+id/widget_tv_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0" android:shadowDy="0" android:shadowRadius="12" />
+            <TextView
+                android:id="@+id/widget_tv_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginBottom="6dp"
+                android:text="天"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:shadowColor="#FFFFFF"
+                android:shadowDx="0" android:shadowDy="0" android:shadowRadius="6" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- “就是今天”专属视图 (默认隐藏) -->
+    <LinearLayout
+        android:id="@+id/widget_layout_today"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/widget_tv_today_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="纪念日"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:shadowColor="#FFFFFF"
+            android:shadowDx="0" android:shadowDy="0" android:shadowRadius="8" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="就是今天"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:shadowColor="#FFFFFF"
+            android:shadowDx="0" android:shadowDy="0" android:shadowRadius="8" />
+    </LinearLayout>
+
+    <!-- “已删除”专属视图 (默认隐藏) -->
+    <LinearLayout
+        android:id="@+id/widget_layout_deleted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:visibility="gone">
+
+        <!-- 图标提示 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="⚠️"
+            android:textSize="32sp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="该事件已被删除"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:shadowColor="#000000"
+            android:shadowDx="0" android:shadowDy="0" android:shadowRadius="6" />
+    </LinearLayout>
+
+</RelativeLayout>

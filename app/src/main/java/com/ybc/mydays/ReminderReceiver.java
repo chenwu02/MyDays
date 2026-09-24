@@ -37,6 +37,9 @@ public class ReminderReceiver extends BroadcastReceiver {
         // 1. 执行今日通知下发任务
         checkAndSendNotifications(context);
 
+        // 2. 触发桌面小组件统一刷新天数
+        triggerWidgetGlobalUpdate(context);
+
         // 2. 引擎自启：任务执行完，立刻安排明天的准点闹钟
         AlarmHelper.scheduleNextMidnightAlarm(context);
     }
@@ -144,5 +147,20 @@ public class ReminderReceiver extends BroadcastReceiver {
                 .setAutoCancel(true);            // 点击后通知自动消失
 
         manager.notify(notificationId, builder.build());
+    }
+
+    /**
+     * 发送广播，强制唤醒所有桌面小组件重新计算最新天数
+     */
+    private void triggerWidgetGlobalUpdate(Context context) {
+        Intent updateIntent = new Intent(context, MyDaysWidgetProvider.class);
+        updateIntent.setAction(android.appwidget.AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+
+        android.appwidget.AppWidgetManager manager = android.appwidget.AppWidgetManager.getInstance(context);
+        android.content.ComponentName componentName = new android.content.ComponentName(context, MyDaysWidgetProvider.class);
+        int[] ids = manager.getAppWidgetIds(componentName);
+
+        updateIntent.putExtra(android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(updateIntent);
     }
 }

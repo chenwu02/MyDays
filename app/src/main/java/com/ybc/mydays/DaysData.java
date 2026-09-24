@@ -19,6 +19,7 @@ public class DaysData {
     private String bgColor; // 纯色背景的色值 (默认为 "#FFFFFF")
     private String textColor; // 字体颜色的色值 (默认为 "#000000")
     private boolean isBlurBg;
+    private String eventId = java.util.UUID.randomUUID().toString();
 
     public DaysData() {};
 
@@ -158,5 +159,17 @@ public class DaysData {
 
     public void setBlurBg(boolean isBlurBg) {
         this.isBlurBg = isBlurBg;
+    }
+
+    public String getEventId() {
+        if (eventId == null) {
+            // 兼容性模式：以前存的老数据没有 ID，自动用它的名字和日期拼成一个固定特征码作为临时身份证，防止老数据崩溃
+            eventId = matterName + "_" + matterYear + "_" + matterMonth + "_" + matterDay;
+        }
+        return eventId;
+    }
+
+    public void setEventId(String eventId) {
+        this.eventId = eventId;
     }
 }

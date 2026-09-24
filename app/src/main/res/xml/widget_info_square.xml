@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="110dp"
+    android:minHeight="110dp"
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
+    android:updatePeriodMillis="0"
+    android:initialLayout="@layout/widget_layout_square"
+    android:configure="com.ybc.mydays.WidgetConfigActivity"
+    android:previewImage="@drawable/widget_preview"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable" />
+    <!-- updatePeriodMillis="0" 代表关闭系统默认定时刷新，由 AlarmManager 接管 -->
+    <!-- configure 指定了用户拖出小组件时，弹出的配置页面 -->
